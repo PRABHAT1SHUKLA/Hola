@@ -20,7 +20,7 @@ export const tokenProvider = async () => {
   
   const id = user.id
   const payload = {
-   user_id: id, expirationTime, issuedAt
+   user_id: id, exp:expirationTime, iat:issuedAt
   }
   const token = streamClient.generateUserToken(payload);
 
