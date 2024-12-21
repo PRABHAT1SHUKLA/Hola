@@ -1,3 +1,4 @@
+"use client "
 import MeetingRoom from '@/components/MeetingRoom';
 import MeetingSetup from '@/components/MeetingSetup';
 import { useGetCallById } from '@/hooks/useGetCallById';
@@ -29,7 +30,7 @@ const meeting = ({params}:{params:{id: string}}) => {
         <StreamTheme>
 
         {!isSetupComplete ? (
-          <MeetingSetup  />
+          <MeetingSetup setIsSetupComplete = {setIsSetupComplete} />
         ) : (
           <MeetingRoom />
         )}
