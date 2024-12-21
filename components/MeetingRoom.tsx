@@ -1,21 +1,38 @@
 "use client"
 
 import { cn } from '@/lib/utils';
-import { CallControls, CallParticipantsList, CallStatsButton, PaginatedGridLayout, SpeakerLayout } from '@stream-io/video-react-sdk';
-import { useRouter } from 'next/navigation';
+import {
+  CallControls,
+  CallParticipantsList,
+  CallStatsButton,
+  CallingState,
+  PaginatedGridLayout,
+  SpeakerLayout,
+  useCallStateHooks,
+} from '@stream-io/video-react-sdk';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useState } from 'react'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
 import { LayoutList, Users } from 'lucide-react';
+import EndCallButton from './EndCallButton';
+import Loader from './Loader';
 
 
 type CallLayoutType = 'grid' | 'speaker-left' | 'speaker-right';
 
 const MeetingRoom = () => {
-
+ 
+  const searchParams = useSearchParams();
+  const isPersonalRoom = !!searchParams.get('personal');
   const router = useRouter()
-
+  const { useCallCallingState } = useCallStateHooks();
   const [showParticipants, setShowParticipants] = useState(false);
   const [layout, setLayout] = useState<CallLayoutType>('speaker-left');
+
+  const callingState = useCallCallingState();
+
+  if (callingState !== CallingState.JOINED) return <Loader />;
+
 
   const CallLayout = () => {
     switch (layout) {
@@ -58,19 +75,19 @@ const MeetingRoom = () => {
           </div>
 
           <DropdownMenuContent className="border-dark-1 bg-dark-1 text-white">
-            {['Grid', 'Speaker-Left', 'Speaker-Right'].map((item, index)=>(
-                  <div key={index}>
-                  <DropdownMenuItem
-                    onClick={() =>
-                      setLayout(item.toLowerCase() as CallLayoutType)
-                    }
-                  >
-                    {item}
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator className="border-dark-1" />
-                </div>
+            {['Grid', 'Speaker-Left', 'Speaker-Right'].map((item, index) => (
+              <div key={index}>
+                <DropdownMenuItem
+                  onClick={() =>
+                    setLayout(item.toLowerCase() as CallLayoutType)
+                  }
+                >
+                  {item}
+                </DropdownMenuItem>
+                <DropdownMenuSeparator className="border-dark-1" />
+              </div>
             )
-               
+
             )}
           </DropdownMenuContent>
         </DropdownMenu>
@@ -81,6 +98,8 @@ const MeetingRoom = () => {
           </div>
         </button>
 
+      
+        {!isPersonalRoom && <EndCallButton />}
 
       </div>
     </section>
