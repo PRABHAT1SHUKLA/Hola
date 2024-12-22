@@ -109,6 +109,21 @@ const MeetingTypeList = () => {
         handleClick={createMeeting}
       />
 
+      <MeetingModal
+        isOpen={meetingState === 'isJoiningMeeting'}
+        onClose={() => setMeetingState(undefined)}
+        title="Type the link here"
+        className="text-center"
+        buttonText="Join Meeting"
+        handleClick={() => router.push(values.link)}
+      >
+        <Input
+          placeholder="Meeting link"
+          onChange={(e) => setValues({ ...values, link: e.target.value })}
+          className="border-none bg-dark-3 focus-visible:ring-0 focus-visible:ring-offset-0"
+        />
+      </MeetingModal>
+
       {!callDetail ? (
         <MeetingModal
           isOpen={meetingState === 'isScheduleMeeting'}
@@ -147,17 +162,17 @@ const MeetingTypeList = () => {
         </MeetingModal>
       ) : (
         <MeetingModal
-        isOpen={meetingState === 'isScheduleMeeting'}
-        onClose={() => setMeetingState(undefined)}
-        title="Meeting Created"
-        handleClick={() => {
-          navigator.clipboard.writeText(meetingLink);
-          toast({ title: 'Link Copied' });
-        }}
-        image={'/icons/checked.svg'}
-        buttonIcon="/icons/copy.svg"
-        className="text-center"
-        buttonText="Copy Meeting Link"
+          isOpen={meetingState === 'isScheduleMeeting'}
+          onClose={() => setMeetingState(undefined)}
+          title="Meeting Created"
+          handleClick={() => {
+            navigator.clipboard.writeText(meetingLink);
+            toast({ title: 'Link Copied' });
+          }}
+          image={'/icons/checked.svg'}
+          buttonIcon="/icons/copy.svg"
+          className="text-center"
+          buttonText="Copy Meeting Link"
         />
 
       )}
