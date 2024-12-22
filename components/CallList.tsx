@@ -110,8 +110,6 @@ const CallList = ({type}:{type:'ended'|'upcoming'|'recordings'}) =>{
       )}
     </div>
   )
-
-
-
-
 }
+
+export default CallList
