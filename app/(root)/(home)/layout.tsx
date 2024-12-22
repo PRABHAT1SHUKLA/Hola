@@ -1,6 +1,14 @@
 import Navbar from '@/components/Navbar';
 import Sidebar from '@/components/Sidebar';
-import React, { ReactNode } from 'react'
+import React, { ReactNode } from 'react';
+import {Metadata} from "next"
+
+
+export const metadata: Metadata = {
+  title: 'Hola',
+  description: 'One and only video streaming platform u will ever need.',
+};
+
 
 const RootLayout = ({ children }: Readonly<{children: ReactNode}>) => {
   return (
